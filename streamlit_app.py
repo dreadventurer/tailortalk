@@ -6,6 +6,17 @@ import re
 from langgraph_flow import app as langgraph_app
 from calendar_helper import get_calendar_service, check_availability, book_event
 
+uploaded_token = st.file_uploader("🔐 Upload your token.pkl file to enable calendar access", type="pkl")
+
+if uploaded_token:
+    with open("token.pkl", "wb") as f:
+        f.write(uploaded_token.read())
+    st.success("✅ token.pkl uploaded successfully!")
+else:
+    st.warning("⚠️ Please upload your token.pkl file to proceed.")
+    st.stop()
+
+
 st.set_page_config(page_title="TailorTalk Agent", layout="centered")
 st.title("🤖 TailorTalk - Appointment Booking Assistant")
 
