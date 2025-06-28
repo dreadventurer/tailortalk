@@ -35,7 +35,7 @@ def extract_time_node(state: GraphState) -> GraphState:
 
 
 def print_node(state: GraphState) -> GraphState:
-    print("📅 Extracted Time:", state["extracted_time"])
+    print(" Extracted Time:", state["extracted_time"])
     return state
 
 # Step 3: Define flow (graph)
