@@ -3,6 +3,7 @@ import httplib2
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 from datetime import datetime, timedelta
+import pytz
 
 def get_calendar_service():
     print("🔐 Loading calendar credentials...")
@@ -23,10 +24,16 @@ def get_calendar_service():
 
 def check_availability(start_time, end_time, service):
     print(f"⏳ Checking availability from {start_time} to {end_time}")
+
+    # Ensure start and end are timezone-aware in Asia/Kolkata
+    ist = pytz.timezone("Asia/Kolkata")
+    start_time = ist.localize(start_time)
+    end_time = ist.localize(end_time)
+
     events_result = service.events().list(
         calendarId='primary',
-        timeMin=start_time.isoformat() + 'Z',
-        timeMax=end_time.isoformat() + 'Z',
+        timeMin=start_time.isoformat(),
+        timeMax=end_time.isoformat(),
         singleEvents=True,
         orderBy='startTime'
     ).execute()
