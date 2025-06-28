@@ -57,7 +57,7 @@ if user_input:
 
         try:
             # Use preloaded service
-            service = st.session_state.calendar_service
+            service = get_calendar_service()#st.session_state.calendar_service
             if check_availability(dt, end_dt, service):
                 link = book_event("TailorTalk Meeting", dt, end_dt,service)
                 reply = f"✅ Booking confirmed!\n[Join Link]({link})"
