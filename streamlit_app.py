@@ -6,14 +6,14 @@ import re
 from langgraph_flow import app as langgraph_app
 from calendar_helper import get_calendar_service, check_availability, book_event
 
-uploaded_token = st.file_uploader("🔐 Upload your token.pkl file to enable calendar access", type="pkl")
+uploaded_token = st.file_uploader(" Upload your token.pkl file to enable calendar access", type="pkl")
 
 if uploaded_token:
     with open("token.pkl", "wb") as f:
         f.write(uploaded_token.read())
-    st.success("✅ token.pkl uploaded successfully!")
+    st.success(" token.pkl uploaded successfully!")
 else:
-    st.warning("⚠️ Please upload your token.pkl file to proceed.")
+    st.warning(" Please upload your token.pkl file to proceed.")
     st.stop()
 
 
@@ -25,7 +25,7 @@ if "calendar_service" not in st.session_state:
     try:
         st.session_state.calendar_service = get_calendar_service()
     except Exception as e:
-        st.error(f"❗ Failed to load calendar: {e}")
+        st.error(f" Failed to load calendar: {e}")
 
 # Store chat history
 if "messages" not in st.session_state:
@@ -60,13 +60,13 @@ if user_input:
             service = get_calendar_service()#st.session_state.calendar_service
             if check_availability(dt, end_dt, service):
                 link = book_event("TailorTalk Meeting", dt, end_dt,service)
-                reply = f"✅ Booking confirmed!\n[Join Link]({link})"
+                reply = f" Booking confirmed!\n[Join Link]({link})"
             else:
-                reply = "❌ That slot is already booked. Try another time."
+                reply = " That slot is already booked. Try another time."
         except Exception as e:
-            reply = f"❗ Error during booking: {e}"
+            reply = f" Error during booking: {e}"
     else:
-        reply = "❗ I couldn't understand the time."
+        reply = " I couldn't understand the time."
 
     st.chat_message("assistant").write(reply)
     st.session_state.messages.append({"role": "assistant", "content": reply})
