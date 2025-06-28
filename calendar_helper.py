@@ -6,24 +6,24 @@ from datetime import datetime, timedelta
 import pytz
 
 def get_calendar_service():
-    print("🔐 Loading calendar credentials...")
+    print(" Loading calendar credentials...")
     creds = pickle.load(open("token.pkl", "rb"))
 
     # Ensure credentials are valid
     if creds and creds.expired and creds.refresh_token:
         try:
             creds.refresh(Request())
-            print("🔁 Token refreshed successfully.")
+            print(" Token refreshed successfully.")
         except RefreshError as e:
-            print(f"❌ Failed to refresh token: {e}")
+            print(f" Failed to refresh token: {e}")
             raise
 
     service = build("calendar", "v3", credentials=creds, cache_discovery=False)
-    print("✅ Google Calendar service loaded")
+    print(" Google Calendar service loaded")
     return service
 
 def check_availability(start_time, end_time, service):
-    print(f"⏳ Checking availability from {start_time} to {end_time}")
+    print(f" Checking availability from {start_time} to {end_time}")
 
     # Ensure start and end are timezone-aware in Asia/Kolkata
     ist = pytz.timezone("Asia/Kolkata")
@@ -43,7 +43,7 @@ def check_availability(start_time, end_time, service):
     return len(events) == 0
 
 def book_event(summary, start_time, end_time, service):
-    print(f"📝 Booking event: {summary} from {start_time} to {end_time}")
+    print(f" Booking event: {summary} from {start_time} to {end_time}")
     event = {
         'summary': summary,
         'start': {
@@ -56,6 +56,6 @@ def book_event(summary, start_time, end_time, service):
         },
     }
     created_event = service.events().insert(calendarId='primary', body=event).execute()
-    print(f"✅ Event created: {created_event.get('htmlLink')}")
+    print(f" Event created: {created_event.get('htmlLink')}")
     return created_event.get('htmlLink')
 
